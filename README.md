@@ -1,122 +1,97 @@
-  Trendapi Module body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; } h1, h2, h3 { color: #333; } code { background: #f4f4f4; padding: 2px 4px; border-radius: 4px; } pre { background: #f4f4f4; padding: 10px; border-radius: 4px; overflow-x: auto; }
+  Trendapi Kullanım Kılavuzu
 
-Trendapi Module
-===============
+Trendapi Kullanım Kılavuzu
+==========================
 
-This module is designed for interacting with the Trendyol API. It provides methods for accessing orders, categories, and supplier information.
+Trendapi, Trendyol'un API'sini kullanarak siparişler, kategori bilgileri ve tedarikçi hizmet URL'leri gibi bilgilere erişmenizi sağlayan bir Node.js kütüphanesidir. Bu kütüphane, Trendyol'un API'sini kullanarak çeşitli veri işlemlerini gerçekleştirmek için basit bir arayüz sunar.
 
-Installation
-------------
+Kurulum
+-------
 
-To use the Trendapi module, you need to have Node.js installed. Then, you can install the module using npm:
+Öncelikle, kütüphaneyi proje dizininize kurmalısınız:
 
     npm install axios
 
-After installing Axios, you can include the Trendapi module in your project.
+Ardından, bu kütüphaneyi projenize dahil etmek için aşağıdaki adımları izleyebilirsiniz:
 
-Usage
------
+    const Trendapi = require('./path/to/Trendapi');
 
-Here is a quick guide on how to use the Trendapi module:
+Kullanım
+--------
 
-### Initialization
+### Yapıcı Fonksiyon
 
-Create an instance of the `Trendapi` class by providing the necessary API credentials:
+`Trendapi` sınıfını kullanarak bir örnek oluşturabilirsiniz. Yapıcı fonksiyon gerekli olan üç parametreyi alır:
 
-    
-    const Trendapi = require('./path-to-your-module');
-    
-    const api = new Trendapi('YOUR_API_KEY', 'YOUR_SECRET_KEY', 'YOUR_SUPPLIER_ID');
-        
+*   `SANER_API_KEY`: API anahtarınız
+*   `SANER_SECRET_KEY`: API gizli anahtarınız
+*   `SANER_SUPPLIER_ID`: Tedarikçi kimlik numaranız
 
-### Methods
+Örnek:
 
-#### getOrders
+    const api = new Trendapi('your-api-key', 'your-secret-key', 'your-supplier-id');
 
-Fetches all orders for the supplier.
+### Siparişleri Getir
 
-    
-    async function fetchOrders() {
-        try {
-            const orders = await api.getOrders();
-            console.log(orders);
-        } catch (error) {
-            console.error(error.message);
-        }
-    }
-        
+Tüm siparişleri almak için `getOrders` metodunu kullanabilirsiniz:
 
-#### getOrderShipmentStatus(status)
+    api.getOrders().then(orders => {
+        console.log(orders);
+    }).catch(error => {
+        console.error(error.message);
+    });
 
-Fetches orders filtered by their shipment status. The status can be 0 for "Delivered" or 1 for "Picking".
+### Siparişlerin Gönderim Durumunu Getir
 
-    
-    async function fetchOrdersByStatus(status) {
-        try {
-            const orders = await api.getOrderShipmentStatus(status);
-            console.log(orders);
-        } catch (error) {
-            console.error(error.message);
-        }
-    }
-        
+Belirli bir gönderim durumuna sahip siparişleri almak için `getOrderShipmentStatus` metodunu kullanabilirsiniz. `status` parametresi aşağıdaki değerleri alabilir:
 
-#### getCategory
+*   `0`: Teslim Edilmiş
+*   `1`: Paketleme Aşamasında
 
-Fetches all product categories.
+Örnek:
 
-    
-    async function fetchCategories() {
-        try {
-            const categories = await api.getCategory();
-            console.log(categories);
-        } catch (error) {
-            console.error(error.message);
-        }
-    }
-        
+    api.getOrderShipmentStatus(1).then(orders => {
+        console.log(orders);
+    }).catch(error => {
+        console.error(error.message);
+    });
 
-#### getCategoryByID(SANERID)
+### Kategorileri Getir
 
-Fetches attributes of a category specified by its ID.
+Ürün kategorilerini almak için `getCategory` metodunu kullanabilirsiniz:
 
-    
-    async function fetchCategoryById(categoryId) {
-        try {
-            const category = await api.getCategoryByID(categoryId);
-            console.log(category);
-        } catch (error) {
-            console.error(error.message);
-        }
-    }
-        
+    api.getCategory().then(categories => {
+        console.log(categories);
+    }).catch(error => {
+        console.error(error.message);
+    });
 
-#### getSupplierServiceURL
+### Kategori ID'sine Göre Özellikleri Getir
 
-Fetches the addresses of the supplier.
+Belirli bir kategori ID'sine göre kategori özelliklerini almak için `getCategoryByID` metodunu kullanabilirsiniz:
 
-    
-    async function fetchSupplierAddresses() {
-        try {
-            const addresses = await api.getSupplierServiceURL();
-            console.log(addresses);
-        } catch (error) {
-            console.error(error.message);
-        }
-    }
-        
+    api.getCategoryByID('category-id').then(categoryAttributes => {
+        console.log(categoryAttributes);
+    }).catch(error => {
+        console.error(error.message);
+    });
 
-Error Handling
---------------
+### Tedarikçi Hizmet URL'lerini Getir
 
-All methods in this module throw an error if there is an issue with the API request. Be sure to handle errors appropriately in your application.
+Tedarikçi hizmet URL'lerini almak için `getSupplierServiceURL` metodunu kullanabilirsiniz:
 
-Contributing
-------------
+    api.getSupplierServiceURL().then(supplierAddresses => {
+        console.log(supplierAddresses);
+    }).catch(error => {
+        console.error(error.message);
+    });
 
-Feel free to fork this repository and submit pull requests. Please make sure to follow the coding conventions and write tests for your changes.
+Hata Yönetimi
+-------------
 
-License
--------
+API çağrıları sırasında bir hata oluşursa, hata mesajı `Error` nesnesi içinde dönecektir. Hata mesajlarını uygun şekilde yakalayabilir ve işleyebilirsiniz.
 
-This module is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+Lisans
+------
+
+Bu proje [MIT Lisansı](https://opensource.org/licenses/MIT) altında lisanslanmıştır.
