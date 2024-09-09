@@ -7,14 +7,9 @@ Trendapi, Trendyol'un API'sini kullanarak siparişler, kategori bilgileri ve ted
 
 Kurulum
 -------
+Bu kütüphaneyi projenize dahil etmek için aşağıdaki adımları izleyebilirsiniz:
 
-Öncelikle, kütüphaneyi proje dizininize kurmalısınız:
-
-    npm install axios
-
-Ardından, bu kütüphaneyi projenize dahil etmek için aşağıdaki adımları izleyebilirsiniz:
-
-    const Trendapi = require('./path/to/Trendapi');
+    const Trendapi = require('trendapi');
 
 Kullanım
 --------
@@ -29,7 +24,7 @@ Kullanım
 
 Örnek:
 
-    const api = new Trendapi('your-api-key', 'your-secret-key', 'your-supplier-id');
+    const api = new Trendapi('SANER_API_KEY', 'SANER_SECRET_KEY', 'SANER_SUPPLIER_ID');
 
 ### Siparişleri Getir
 
